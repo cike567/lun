@@ -1,4 +1,4 @@
-package org.mvn;
+package org;
 
 import java.io.IOException;
 
