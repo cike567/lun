@@ -23,14 +23,13 @@ public class Stream {
 	}
 
 	public static String read(InputStream inputStream, String charset) {
-		Scanner scanner = new Scanner(inputStream, charset);
-		return scanner.useDelimiter("\\A").next();
+		return new Scanner(inputStream, charset).useDelimiter("\\A").next();
 	}
 
-	public static List<String> readLine(InputStream inputStream) throws IOException {
+	public static List<String> readLine(InputStream input) throws IOException {
 		List<String> lines = new ArrayList<String>();
 		String line;
-		BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+		BufferedReader br = new BufferedReader(new InputStreamReader(input));
 		while ((line = br.readLine()) != null) {
 			lines.add(line);
 		}
@@ -48,7 +47,7 @@ public class Stream {
 		write(toByte(input), file);
 	}
 
-	public static byte[] toByte(InputStream input) throws IOException {
+	private static byte[] toByte(InputStream input) throws IOException {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		byte[] buffer = new byte[BUF];
 		int n = 0;

@@ -2,7 +2,7 @@ package org.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -48,35 +48,27 @@ public class Jar {
 		URL[] urls = new URL[names.length];
 		for (int i = 0; i < names.length; i++) {
 			url = new URL(String.format("jar:%s/%s", root, names[i]));// "jar:" +
-			File file = new File(names[i]);
-			if (!file.exists()) {
-				Files.create(names[i]);
-			}
-			// log.info("jar:{}-->{}", url.getPath(), file.getAbsolutePath());
-			Stream.write(url.openStream(), file);
+			File file = write(url.openStream(), names[i]);
 			urls[i] = file.toURL();
 		}
 
 		return urls;
 	}
 
-	public static Object run(String className, String method, Object... args) throws Exception {
-		System.out.println(className);
-		Class clas = Class.forName(className);
-		Object obj = clas.newInstance();
-		return method(obj, method, args);
-	}
-
-	public static Object method(Object obj, String method, Object... args) throws Exception {
-		Class[] clas = new Class[args.length];
-		for (int i = 0; i < args.length; i++) {
-			Class c = args[i].getClass();
-			Class p = c.getSuperclass();
-			clas[i] = p != Object.class ? p : c;
+	private File write(InputStream input, String fileName) throws IOException {
+		// file
+		File file = new File(fileName);
+		if (!file.exists()) {
+			if (file.getParentFile() != null && !file.getParentFile().exists()) {
+				file.getParentFile().mkdirs();
+			}
+			if (file.isFile()) {
+				file.createNewFile();
+			}
 		}
-		Method add = obj.getClass().getDeclaredMethod(method, clas);
-		add.setAccessible(true);
-		return add.invoke(obj, args);
+		Stream.write(input, file);
+		input.close();
+		return file;
 	}
 
 	private final String MF = "/META-INF/MANIFEST.MF";
