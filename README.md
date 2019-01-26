@@ -1,19 +1,81 @@
-# org
+# mvn
 
 #### 项目介绍
-{**以下是码云平台说明，您可以替换为您的项目简介**
-码云是开源中国推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+可执行jar
 
-#### 软件架构
-软件架构说明
+#### 原理
+> maven-assembly-plugin 将依赖的jar打包至jar内lib下
 
+> java -jar *.jar，通过读取jar包内/META-INF/MANIFEST.MF，将jar包内的依赖包复制至./lib，类加载器会自动加载
 
-#### 安装教程
+#### 配置
 
-1. xxxx
-2. xxxx
-3. xxxx
+> pom.xml 
+
+> mvn package中执行assembly打包(按src.xml配置)
+
+~~~ xml
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-assembly-plugin</artifactId>
+	<version>3.1.0</version>
+	<configuration>
+		<archive>
+			<manifest>
+				<mainClass>${project.groupId}.App</mainClass>
+				<addClasspath>true</addClasspath>
+				<classpathPrefix>lib</classpathPrefix>
+			</manifest>
+		</archive>
+		<descriptors>
+			<descriptor>src/main/assembly/src.xml</descriptor>
+		</descriptors>
+	</configuration>
+	<executions>
+		<execution>
+			<phase>package</phase>
+			<goals>
+				<goal>single</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+~~~
+
+> src.xml
+
+~~~
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+	<id>bin</id>
+	<formats>
+		<format>jar</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<dependencySets>
+		<dependencySet>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+			<excludes>
+				<exclude>${project.groupId}:${project.artifactId}</exclude>
+			</excludes>
+			<outputDirectory>/lib</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+	<fileSets>
+		<fileSet>
+			<directory>${project.build.directory}/classes</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>/src</directory>
+			<outputDirectory>/src</outputDirectory>
+		</fileSet>
+	</fileSets>
+</assembly>
+~~~
 
 #### 使用说明
 
@@ -24,22 +86,9 @@ mvn archetype:generate -X -DarchetypeCatalog=local
 
 mvn test
 
-mvn package
+mvn package -Dmaven.test.skip=true  
 ~~~
 
-#### 参与贡献
-
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+~~~
+java -jar  mvn-1.0-SNAPSHOT-bin.jar
+~~~

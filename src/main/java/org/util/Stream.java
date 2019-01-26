@@ -63,25 +63,17 @@ public class Stream {
 	}
 
 	public static File write(File file, InputStream input, String charset) throws IOException {
-		return write(toByte(input, charset), file);
-	}
-
-	public static File write(File file, InputStream input) throws IOException {
-		return write(toByte(input), file);
-	}
-
-	public static byte[] toByte(InputStream input) throws IOException {
-		ByteArrayOutputStream output = toByteArrayOutputStream(input);
-		byte[] buffer = output.toByteArray();
-		output.close();
-		return buffer;
-	}
-
-	public static byte[] toByte(InputStream input, String charset) throws IOException {
 		ByteArrayOutputStream output = toByteArrayOutputStream(input);
 		byte[] buffer = output.toString(charset).getBytes();
 		output.close();
-		return buffer;
+		return write(buffer, file);
+	}
+
+	public static File write(File file, InputStream input) throws IOException {
+		ByteArrayOutputStream output = toByteArrayOutputStream(input);
+		byte[] buffer = output.toByteArray();
+		output.close();
+		return write(buffer, file);
 	}
 
 	private static ByteArrayOutputStream toByteArrayOutputStream(InputStream input) throws IOException {
