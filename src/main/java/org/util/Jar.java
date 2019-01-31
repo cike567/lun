@@ -62,6 +62,13 @@ public class Jar {
 		return urls;
 	}
 
+	public void cp(String path, String dir) throws IOException {
+		URL url = Jar.class.getResource(path);
+		if (url != null) {
+			cp(url, new File(dir));
+		}
+	}
+
 	public void cp(URL url, File dir) throws IOException {
 		JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
 		JarFile jarFile = jarURLConnection.getJarFile();
@@ -72,7 +79,7 @@ public class Jar {
 			String name = jarEntry.getName();
 			if (name.contains(path)) {
 				File file = new File(dir, name.replace(path, ""));
-				Stream.write(file, jarFile.getInputStream(jarEntry), "UTF-8");
+				Stream.write(file, jarFile.getInputStream(jarEntry));
 			}
 		}
 	}

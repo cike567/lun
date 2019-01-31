@@ -38,7 +38,7 @@ public class Stream {
 		return lines;
 	}
 
-	public static File write(byte[] b, File file) throws IOException {
+	public static File write(File file, byte[] b) throws IOException {
 		if (!file.exists()) {
 			String name = file.getName();
 			if (file.isFile() || name.contains(".")) {
@@ -62,18 +62,11 @@ public class Stream {
 		return file;
 	}
 
-	public static File write(File file, InputStream input, String charset) throws IOException {
-		ByteArrayOutputStream output = toByteArrayOutputStream(input);
-		byte[] buffer = output.toString(charset).getBytes();
-		output.close();
-		return write(buffer, file);
-	}
-
 	public static File write(File file, InputStream input) throws IOException {
 		ByteArrayOutputStream output = toByteArrayOutputStream(input);
 		byte[] buffer = output.toByteArray();
 		output.close();
-		return write(buffer, file);
+		return write(file, buffer);
 	}
 
 	private static ByteArrayOutputStream toByteArrayOutputStream(InputStream input) throws IOException {
