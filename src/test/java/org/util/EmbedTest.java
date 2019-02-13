@@ -1,19 +1,11 @@
 package org.util;
 
 import org.junit.Test;
-import org.util.jetty.Jettyembed;
 import org.util.tomcat.Tomcatembed;
 
 public class EmbedTest {
 
 	int port = 8080;
-
-	// @Test
-	public void testJetty() throws Throwable {
-		Embed embed = Jettyembed.embed();
-		embed.webapp("/embed", WEBAPP)// .addServlet(EndServlet.class).addServlet(PointServlet.class)
-				.startup(port);
-	}
 
 	@Test
 	public void testTomcat() throws Throwable {

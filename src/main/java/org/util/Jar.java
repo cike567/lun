@@ -62,14 +62,14 @@ public class Jar {
 		return urls;
 	}
 
-	public void cp(String path, String dir) throws IOException {
+	public static void cp(String path, String dir) throws IOException {
 		URL url = Jar.class.getResource(path);
 		if (url != null) {
 			cp(url, new File(dir));
 		}
 	}
 
-	public void cp(URL url, File dir) throws IOException {
+	public static void cp(URL url, File dir) throws IOException {
 		JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
 		JarFile jarFile = jarURLConnection.getJarFile();
 		String path = new Strings(url.getPath()).sub("jar!/").toString();

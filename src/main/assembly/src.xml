@@ -15,7 +15,7 @@
 			<excludes>
 				<exclude>${project.groupId}:${project.artifactId}</exclude>
 			</excludes>
-			<outputDirectory>/lib</outputDirectory>
+			<outputDirectory>${project.lib}</outputDirectory>
 		</dependencySet>
 	</dependencySets>
 	<fileSets>

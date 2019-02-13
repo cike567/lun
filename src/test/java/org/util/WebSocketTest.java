@@ -16,13 +16,6 @@ import org.util.ws.WSClient;
 public class WebSocketTest {
 
 	@Test
-	public void testJetty() throws Throwable {
-		String uri = "ws://localhost:9222/devtools/page/EC859459D18BF5C3BC002D3EADC25410";
-		WSClient client = new org.util.jetty.ClientWebSocket(uri);
-		ws(client);
-	}
-
-	@Test
 	public void testTomcat() throws Throwable {
 		String uri = "ws://localhost:9222/devtools/page/EC859459D18BF5C3BC002D3EADC25410";
 		WSClient client = new org.util.tomcat.ClientWebSocket(uri);

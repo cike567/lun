@@ -1,7 +1,9 @@
 package org.util.tomcat;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.catalina.Context;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.WebResourceSet;
 import org.apache.catalina.core.StandardContext;
@@ -9,6 +11,7 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.DirResourceSet;
 import org.apache.catalina.webresources.StandardRoot;
 import org.util.Embed;
+import org.util.Jar;
 
 /**
  * 
@@ -16,18 +19,16 @@ import org.util.Embed;
  *
  */
 public class Tomcatembed extends Embed {
-	/*
-	 * public Tomcatembed addServlet(Class servlet, String path) throws Throwable {
-	 * String name = servlet.getSimpleName(); System.out.println("" + name);
-	 * tomcat.addServlet(root, name, (javax.servlet.Servlet) servlet.newInstance());
-	 * root.addServletMappingDecoded(path, name);// String.format("/%s/*", path)
-	 * return this; }
-	 */
-	public Tomcatembed webapp(String path, String dir) throws Throwable {
+
+	protected void webinf(String dir) throws IOException {
+		String WEBAPP = "/src/main/webapp";
+		Jar.cp(WEBAPP, dir);
+	}
+
+	protected Tomcatembed webapp(String path, String dir) throws Throwable {
 		File webapp = new File(dir);
-		// root = tomcat.addWebapp(path, webapp.getAbsolutePath());
 		StandardContext ctx = (StandardContext) tomcat.addWebapp(path, webapp.getAbsolutePath());
-		ctx.setParentClassLoader(this.getClass().getClassLoader());
+		ctx.setParentClassLoader(Tomcatembed.class.getClassLoader());
 		File webInf = new File("classes");
 		WebResourceRoot resources = new StandardRoot(ctx);
 		WebResourceSet resourceSet = new DirResourceSet(resources, "/WEB-INF/classes", webInf.getAbsolutePath(), "/");
@@ -36,11 +37,7 @@ public class Tomcatembed extends Embed {
 		return this;
 	}
 
-	public void startup(int port, String path, String dir) throws Throwable {
-		webapp(path, dir).startup(port);
-	}
-
-	public void startup(int port) throws Throwable {
+	protected void startup(int port) throws Throwable {
 		// System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow",
 		// "{}");
 
@@ -51,6 +48,7 @@ public class Tomcatembed extends Embed {
 	}
 
 	public Tomcatembed() {
+		super();
 		tomcat = new Tomcat();
 		// TODO
 		// root = tomcat.addContext("/", new File(".").getAbsolutePath());
@@ -64,6 +62,6 @@ public class Tomcatembed extends Embed {
 
 	private Tomcat tomcat;
 
-	// private Context root;
+	private Context root;
 
 }
