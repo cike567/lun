@@ -1,12 +1,9 @@
 package org;
 
+import java.io.IOException;
 import java.util.Map;
 
-import org.util.Embed;
 import org.util.Jar;
-import org.util.Shell;
-import org.util.jetty.Jettyembed;
-import org.util.tomcat.Tomcatembed;
 
 /**
  * 
@@ -24,22 +21,16 @@ public class App {
 	private App(String[] arg) throws Throwable {
 		String root = "webapp";
 		String WEBAPP = "/src/main/webapp";
-		new Jar().cp(WEBAPP, root);
-		Embed embed = Jettyembed.embed();
-		args = Shell.args(arg);
-		if (args.containsKey(W)) {
-			if ("tomcat".equals(args.get(W))) {
-				embed = Tomcatembed.embed();
-			}
+		Jar.cp(WEBAPP, root);
+	}
+
+	static {
+		try {
+			new Jar();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		if (args.containsKey(P)) {
-			port = (Integer) args.get(P);
-		}
-
-		embed.webapp("/embed", root)// .addServlet(EndServlet.class).addServlet(PointServlet.class, "/json/ws")
-				.startup(port);
-
 	}
 
 	private String W = "w";
