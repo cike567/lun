@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.util.Jar;
 
+//import com.sun.grizzly.http.SelectorThread;
+//import com.sun.jersey.api.container.grizzly.GrizzlyWebContainerFactory;
+
 /**
  * 
  * @author cike
@@ -19,9 +22,9 @@ public class App {
 	}
 
 	private App(String[] arg) throws Throwable {
-		String root = "webapp";
-		String WEBAPP = "/src/main/webapp";
-		Jar.cp(WEBAPP, root);
+		// String root = "webapp";
+		// String WEBAPP = "/src/main/webapp";
+		// Jar.cp(WEBAPP, root);
 	}
 
 	static {
