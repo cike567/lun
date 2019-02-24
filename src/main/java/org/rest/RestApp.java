@@ -7,6 +7,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 /**
+ * http://localhost:8080/application.wadl
  * 
  * @author cike
  *
@@ -20,6 +21,7 @@ public class RestApp extends Application {
 			sets.add(c.getPackage().getName());
 		});
 		System.out.println(sets);
+
 		return sets;
 	}
 

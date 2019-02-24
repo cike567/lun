@@ -79,6 +79,8 @@
 
 #### 使用说明
 
+##### jar
+
 ~~~
 mvn help:system
 
@@ -91,4 +93,11 @@ mvn package -Dmaven.test.skip=true
 
 ~~~
 java -jar  mvn-1.0-SNAPSHOT-bin.jar
+~~~
+
+##### jax-rs
+~~~
+mvn jetty:run
+
+curl http://localhost:8080/webapi/application.wadl
 ~~~
