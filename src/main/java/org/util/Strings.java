@@ -36,6 +36,7 @@ public class Strings {
 		return "";
 	}
 
+	@Override
 	public String toString() {
 		return temp;
 	}

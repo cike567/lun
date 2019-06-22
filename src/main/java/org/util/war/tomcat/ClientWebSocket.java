@@ -1,4 +1,4 @@
-package org.util.tomcat;
+package org.util.war.tomcat;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,8 +16,8 @@ import javax.websocket.WebSocketContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.util.ws.LogMessage;
-import org.util.ws.Message;
-import org.util.ws.WSClient;
+import org.util.ws.AbstractMessage;
+import org.util.ws.AbstractClientws;
 
 /**
  * 
@@ -25,13 +25,13 @@ import org.util.ws.WSClient;
  *
  */
 @ClientEndpoint
-public class ClientWebSocket extends WSClient {
+public class ClientWebSocket extends AbstractClientws {
 
 	public ClientWebSocket(String uri) throws Throwable {
 		this(uri, new LogMessage());
 	}
 
-	public ClientWebSocket(String uri, Message message) throws Throwable {
+	public ClientWebSocket(String uri, AbstractMessage message) throws Throwable {
 		this.message = message;
 		this.uri = new URI(uri);
 		connect();
@@ -45,6 +45,7 @@ public class ClientWebSocket extends WSClient {
 		container.connectToServer(this, uri);
 	}
 
+	@Override
 	public String send(String text) throws IOException, InterruptedException {
 		log.info(text);
 		session.getBasicRemote().sendText(text);

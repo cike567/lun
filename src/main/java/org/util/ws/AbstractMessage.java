@@ -11,8 +11,13 @@ import java.util.concurrent.TimeUnit;
  * @author cike
  *
  */
-public abstract class Message {
+public abstract class AbstractMessage {
 
+	/**
+	 * 
+	 * @param message
+	 * @return
+	 */
 	public abstract boolean response(String message);
 
 	/**

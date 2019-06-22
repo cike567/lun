@@ -1,12 +1,11 @@
 package org;
 
-import java.io.IOException;
 import java.util.Map;
 
-import org.util.Embed;
 import org.util.Jar;
 import org.util.Shell;
-import org.util.tomcat.Tomcatembed;
+import org.util.war.AbstractEmbed;
+import org.util.war.tomcat.Tomcatembed;
 
 /**
  * 
@@ -14,42 +13,36 @@ import org.util.tomcat.Tomcatembed;
  *
  */
 public class App {
-	/*
-	 * -w tomcat/jetty -t 9000
+	/**
+	 * -w a.war -p 9000
 	 */
 	public static void main(String[] args) throws Throwable {
+		Jar.classpath();
 		new App(args);
 	}
 
 	private App(String[] arg) throws Throwable {
-		String root = ".";
-		// String WEBAPP = "/src/main/webapp";
-		// new Jar().cp(WEBAPP, root);
-		Embed embed = Tomcatembed.embed();
-		args = Shell.args(arg);
+
+		AbstractEmbed embed = Tomcatembed.embed();
+		Map<String, Object> args = Shell.args(arg);
 
 		if (args.containsKey(P)) {
 			port = (Integer) args.get(P);
 		}
 
-		embed.startup(port, "/", root);// .addServlet(EndServlet.class).addServlet(PointServlet.class, "/json/ws")
-	}
-
-	static {
-		try {
-			new Jar();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (args.containsKey(W)) {
+			String war = args.get(W).toString();
+			embed.startup(war, port);
+		} else {
+			// .addServlet(EndServlet.class).addServlet(PointServlet.class,"/json/ws")
+			embed.startup("/", ".", port);
 		}
 	}
 
-	private String W = "w";
+	private final String W = "w";
 
-	private String P = "p";
+	private final String P = "p";
 
 	private int port = 9000;
-
-	private Map<String, Object> args;
 
 }

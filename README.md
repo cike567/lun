@@ -92,3 +92,7 @@ mvn package -Dmaven.test.skip=true
 ~~~
 java -jar  mvn-1.0-SNAPSHOT-bin.jar
 ~~~
+
+~~~
+java -jar  mvn-1.0-SNAPSHOT-bin.jar -w ssms.war
+~~~
