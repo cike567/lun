@@ -15,9 +15,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.util.CacheList;
-import org.util.Jaxrs;
 import org.util.URLMap;
+import org.util.ws.Jaxrs;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 //@WebServlet(urlPatterns = { "/oauth2/token" })
 @Path("/oauth2.0")
 public class Oauth2 {
@@ -55,7 +60,7 @@ public class Oauth2 {
 		int expire = new Random().nextInt(60);
 		String token = UUID.randomUUID().toString();
 		CacheList.put(token, expire);
-		Map<String, Object> auth = new HashMap<String, Object>() {
+		Map<String, Object> auth = new HashMap<String, Object>(5) {
 			{
 				put(ACCESS_TOKEN, token);
 				put(EXPIRES_IN, expire);

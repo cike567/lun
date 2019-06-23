@@ -20,8 +20,7 @@ public class RestApp extends Application {
 		getClasses().forEach(c -> {
 			sets.add(c.getPackage().getName());
 		});
-		System.out.println(sets);
-
+		System.out.println("Application:" + sets);
 		return sets;
 	}
 

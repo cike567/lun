@@ -3,6 +3,11 @@ package org.util;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class URLMap {
 
 	public static String toQuery(Map<String, Object> query) {

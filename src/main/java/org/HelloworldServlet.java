@@ -9,13 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 @WebServlet(urlPatterns = { "/helloworld" })
 public class HelloworldServlet extends HttpServlet {
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		ServletOutputStream out = response.getOutputStream();
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ServletOutputStream out = resp.getOutputStream();
 		out.write("Hello World".getBytes());
 		out.flush();
 		out.close();

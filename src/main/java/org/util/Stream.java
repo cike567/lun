@@ -46,7 +46,7 @@ public class Stream {
 					file.getParentFile().mkdirs();
 				}
 				file.createNewFile();
-			} else if (file.isDirectory() || !name.contains(".")) {//
+			} else if (file.isDirectory() || !name.contains(".")) {
 				file.mkdirs();
 			}
 		}

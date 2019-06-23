@@ -17,6 +17,11 @@ import org.util.CacheList;
 
 import sun.misc.BASE64Encoder;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class HttpBasicAuth {
 
 	HttpBasicAuth(ServletRequest request, ServletResponse response) {
@@ -49,13 +54,12 @@ public class HttpBasicAuth {
 	}
 
 	boolean startsWithFilter(List<String> list, String path) {
+		if (path == null) {
+			return true;
+		}
+		System.out.println("path:" + path);
 		return list.stream().filter(t -> path.startsWith(t)).collect(Collectors.toList()).size() > 0;
 	}
-
-	/*
-	 * public void addAuth(String user, String password) { basic.add(auth(user,
-	 * password)); }
-	 */
 
 	private void e401(HttpServletResponse response) throws IOException {
 		response.setHeader("WWW-Authenticate", "Basic realm=\"HTTP Basic Auth\"");

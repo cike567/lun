@@ -97,7 +97,5 @@ java -jar  mvn-1.0-SNAPSHOT-bin.jar
 
 ##### jax-rs
 ~~~
-mvn jetty:run
-
-curl http://localhost:8080/webapi/application.wadl
+curl http://localhost:9000/application.wadl
 ~~~

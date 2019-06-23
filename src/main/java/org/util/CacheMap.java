@@ -5,6 +5,11 @@ import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class CacheMap {
 	private static Map<String, Object> valueMap = new ConcurrentHashMap<>();
 	private static Map<String, Long> expireMap = new ConcurrentHashMap<>();

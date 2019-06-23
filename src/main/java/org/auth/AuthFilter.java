@@ -10,6 +10,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 @WebFilter(urlPatterns = "/*")
 public class AuthFilter implements Filter {
 

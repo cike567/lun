@@ -11,6 +11,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.util.Stream;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 @Path("/clientid")
 public class Clientid {
 

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
  * @author cike
  *
  */
-public class LogMessage extends Message {
+public class LogMessage extends AbstractMessage {
 
 	@Override
 	public boolean response(String message) {

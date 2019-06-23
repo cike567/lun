@@ -20,7 +20,7 @@ public class Shell {
 	}
 
 	public static Map<String, Object> args(String[] args) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>(10);
 		for (int i = 0; i < args.length; i = i + 2) {
 			if (args[i].startsWith("-")) {
 				map.put(args[i].substring(1), args[i + 1]);
