@@ -24,7 +24,7 @@
 			<manifest>
 				<mainClass>${project.groupId}.App</mainClass>
 				<addClasspath>true</addClasspath>
-				<classpathPrefix>lib</classpathPrefix>
+				<classpathPrefix>${project.lib}</classpathPrefix>
 			</manifest>
 		</archive>
 		<descriptors>
@@ -61,13 +61,17 @@
 			<excludes>
 				<exclude>${project.groupId}:${project.artifactId}</exclude>
 			</excludes>
-			<outputDirectory>/lib</outputDirectory>
+			<outputDirectory>${project.lib}</outputDirectory>
 		</dependencySet>
 	</dependencySets>
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.directory}/classes</directory>
 			<outputDirectory>/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/classes</directory>
+			<outputDirectory>/WEB-INF/classes</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>/src</directory>
@@ -91,8 +95,6 @@ mvn package -Dmaven.test.skip=true
 
 ~~~
 java -jar  mvn-1.0-SNAPSHOT-bin.jar
-~~~
-
-~~~
-java -jar  mvn-1.0-SNAPSHOT-bin.jar -w ssms.war
+java -jar  mvn-1.0-SNAPSHOT-bin.jar 8000
+java -jar  mvn-1.0-SNAPSHOT-bin.jar 8080 ssms.war
 ~~~

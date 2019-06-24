@@ -1,4 +1,4 @@
-package org.util.war;
+package org;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import java.io.IOException;
  * @author cike
  *
  */
-public abstract class AbstractEmbed {
+public abstract class War {
 
 	/**
 	 * 
@@ -23,7 +23,7 @@ public abstract class AbstractEmbed {
 	 * @return
 	 * @throws Throwable
 	 */
-	protected abstract AbstractEmbed webapp(String path, String dir) throws Throwable;
+	protected abstract War webapp(String path, String dir) throws Throwable;
 
 	/**
 	 * 
@@ -43,7 +43,7 @@ public abstract class AbstractEmbed {
 	 * @return
 	 * @throws Throwable
 	 */
-	protected abstract AbstractEmbed webapp(String war) throws Throwable;
+	protected abstract War webapp(String war) throws Throwable;
 
 	public void startup(String war, int port) throws Throwable {
 		webapp(war).startup(port);

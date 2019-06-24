@@ -1,23 +1,23 @@
-package org.util.war.tomcat;
+package org.util.war;
 
 import java.io.File;
 import java.io.IOException;
 
+import org.Jar;
+import org.War;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.WebResourceSet;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.DirResourceSet;
 import org.apache.catalina.webresources.StandardRoot;
-import org.util.Jar;
-import org.util.war.AbstractEmbed;
 
 /**
  * 
  * @author cike
  *
  */
-public class Tomcatembed extends AbstractEmbed {
+public class Tomcatembed extends War {
 
 	@Override
 	protected void webinf(String dir) throws IOException {
@@ -48,9 +48,6 @@ public class Tomcatembed extends AbstractEmbed {
 
 	@Override
 	protected void startup(int port) throws Throwable {
-		// System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow",
-		// "{}");
-
 		tomcat.setPort(port);
 		tomcat.getConnector();
 		tomcat.start();
@@ -59,8 +56,6 @@ public class Tomcatembed extends AbstractEmbed {
 
 	public Tomcatembed() {
 		tomcat = new Tomcat();
-		// TODO
-		// root = tomcat.addContext("/", new File(".").getAbsolutePath());
 	}
 
 	public static Tomcatembed embed() {
@@ -70,7 +65,5 @@ public class Tomcatembed extends AbstractEmbed {
 	private static Tomcatembed embed = new Tomcatembed();
 
 	private Tomcat tomcat;
-
-	// private Context root;
 
 }
