@@ -1,11 +1,6 @@
 package org;
 
-import java.util.Map;
-
-import org.util.Jar;
-import org.util.Shell;
-import org.util.war.AbstractEmbed;
-import org.util.war.tomcat.Tomcatembed;
+import org.util.war.Tomcatembed;
 
 /**
  * 
@@ -14,7 +9,7 @@ import org.util.war.tomcat.Tomcatembed;
  */
 public class App {
 	/**
-	 * -w a.war -p 9000
+	 * java -jar a.jar 9000 b.war
 	 */
 	public static void main(String[] args) throws Throwable {
 		Jar.classpath();
@@ -22,15 +17,14 @@ public class App {
 	}
 
 	private App(String[] arg) throws Throwable {
-
-		AbstractEmbed embed = Tomcatembed.embed();
-		Map<String, Object> args = Shell.args(arg);
-
-		if (args.containsKey(W)) {
-			String war = args.get(W).toString();
+		War embed = Tomcatembed.embed();
+		if (arg.length > 0) {
+			port = Integer.parseInt(arg[0]);
+		}
+		if (arg.length == 2) {
+			String war = arg[1];
 			embed.startup(war, port);
 		} else {
-			// .addServlet(EndServlet.class).addServlet(PointServlet.class,"/json/ws")
 			embed.startup("/", ".", port);
 		}
 
