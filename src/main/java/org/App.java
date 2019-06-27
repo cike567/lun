@@ -7,6 +7,7 @@ import org.util.war.Tomcatembed;
  * @author cike
  *
  */
+
 public class App {
 	/**
 	 * java -jar a.jar 9000 b.war
@@ -29,10 +30,6 @@ public class App {
 		}
 
 	}
-
-	private final String W = "w";
-
-	private final String P = "p";
 
 	private int port = 9000;
 
