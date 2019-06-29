@@ -1,7 +1,6 @@
 package org.rest;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,26 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AnnotationLoader;
+import org.rest.rs.Pathrs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @WebServlet(urlPatterns = { "/*" })
 public class ServletContainer extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
 		// super.service(req, resp);
-		String path = request.getRequestURI();
 		try {
-			Object rs = new Pathurl().invoke(path);
+			Object rs = path.invoke(request.getRequestURI(), request);
+			logger.info("return :{}", rs);
 			response.getWriter().print(rs);
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Throwable e) {
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -37,9 +35,11 @@ public class ServletContainer extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		super.init(config);
-		route = new Pathurl();
+		AnnotationLoader.load("/");
+		path = new Pathrs();
 	}
 
-	Pathurl route;
+	private Pathrs path;
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 }

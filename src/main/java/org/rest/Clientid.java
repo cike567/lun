@@ -1,10 +1,12 @@
 package org.rest;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -34,8 +36,8 @@ public class Clientid {
 	@POST
 	@Path("/post")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String post(String body) {
-		return body;
+	public String post(byte[] body, @HeaderParam("content-length") Integer length) {
+		return new String(body, Charset.forName("UTF-8")) + length;
 	}
 
 }
