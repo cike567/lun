@@ -1,15 +1,19 @@
 package org.rest;
 
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.Scanner;
+import java.util.Arrays;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -27,17 +31,20 @@ public class Clientid {
 
 	@POST
 	@Path("/body")
-	public String body(InputStream input) {
-		Scanner scanner = new Scanner(input, "UTF-8");
-		return scanner.useDelimiter("\\A").next();
+	public String body(byte[] b, @HeaderParam("content-length") String body, HttpServletRequest request) {
+		logger.info("byte:{}", Arrays.toString(b));
+		logger.info("content-length:{}", request.getHeader("content-length"));
+		return body;
 
 	}
 
 	@POST
 	@Path("/post")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String post(byte[] body, @HeaderParam("content-length") Integer length) {
-		return new String(body, Charset.forName("UTF-8")) + length;
+	public String post(String b, @QueryParam("name") String name, @HeaderParam("content-length") int length,
+			@CookieParam("sid") String sid) {
+		return b.length() + name + length + sid;
 	}
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 }

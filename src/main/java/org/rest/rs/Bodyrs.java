@@ -1,6 +1,8 @@
 package org.rest.rs;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,15 +29,23 @@ public class Bodyrs {
 		logger.info("ContentLength:{}", length);
 		if (length > 0) {
 			byt = new byte[length];
-			/*
-			 * ByteArrayOutputStream output = new ByteArrayOutputStream(); InputStream input
-			 * = request.getInputStream(); int b = 0; while (-1 != (b = input.read(body))) {
-			 * output.write(body, 0, b); } byt = output.toByteArray(); output.close();
-			 */
 			request.getInputStream().read(byt);
+			// read(request);
 			logger.info("body:{}", Arrays.toString(byt));
 		}
 
+	}
+
+	private void read(HttpServletRequest request) throws IOException {
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		InputStream input = request.getInputStream();
+		byte[] body = new byte[request.getContentLength()];
+		int b = 0;
+		while (-1 != (b = input.read(body))) {
+			output.write(body, 0, b);
+		}
+		byt = output.toByteArray();
+		output.close();
 	}
 
 	public byte[] toByte() {
