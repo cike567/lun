@@ -21,7 +21,7 @@ public class QueryParamrs extends Paramrs {
 	protected void put(HttpServletRequest request, String name) {
 		String p = request.getParameter(name);
 		if (p != null) {
-			headerMap.put(name, p);
+			paramMap.put(name, p);
 		}
 	}
 

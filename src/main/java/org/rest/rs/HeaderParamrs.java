@@ -19,7 +19,7 @@ public class HeaderParamrs extends Paramrs {
 
 	@Override
 	protected void put(HttpServletRequest request, String name) {
-		headerMap.put(name, request.getHeader(name));
+		paramMap.put(name, request.getHeader(name));
 	}
 
 	@Override

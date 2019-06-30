@@ -29,7 +29,7 @@ public class CookieParamrs extends Paramrs {
 	protected void put(HttpServletRequest request, String name) {
 		for (Cookie cookie : request.getCookies()) {
 			if (name.equals(cookie.getName())) {
-				headerMap.put(name, cookie.getValue());
+				paramMap.put(name, cookie.getValue());
 			}
 		}
 	}

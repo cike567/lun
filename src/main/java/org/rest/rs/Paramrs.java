@@ -7,12 +7,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class Paramrs {
 
 	public Paramrs(HttpServletRequest request) {// , Method method
 		// this.request = request;
 		// params(method);
 		params(request);
+		logger.info("param:{}", paramMap);
 	}
 
 	protected abstract Enumeration<String> names(HttpServletRequest request);
@@ -42,19 +46,19 @@ public abstract class Paramrs {
 		return param;
 	}
 
-	public String param(String key) {
-		String param = null;
-		if (headerMap.containsKey(key)) {
-			param = headerMap.get(key);
+	public Object param(String key) {
+		Object param = null;
+		if (paramMap.containsKey(key)) {
+			param = paramMap.get(key);
 		}
 		return param;
 	}
 
-	public Map<String, String> toMap() {
-		return headerMap;
+	public Map<String, Object> toMap() {
+		return paramMap;
 	}
 
-	protected Map<String, String> headerMap = new HashMap<String, String>();
-
+	protected Map<String, Object> paramMap = new HashMap<String, Object>();
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	// private HttpServletRequest request;
 }

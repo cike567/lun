@@ -1,8 +1,6 @@
 package org.rest.rs;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,36 +31,14 @@ public class Pathrs {
 
 	public Object invoke(String path, HttpServletRequest request) throws Throwable {
 		Object rs = null;
-
 		if (methodMap.containsKey(path)) {
 			Method method = methodMap.get(path);
-			// Object[] args = new Methodrs(method).params(request);
-			logger.info("{}:{}", path, method.toGenericString());
-			Class<?>[] parameterTypes = method.getParameterTypes(); // 获得参数类型
-			Type[] genericParameterTypes = method.getGenericParameterTypes();
-			for (int i = 0; i < parameterTypes.length; i++) {
-				logger.info("ParameterType:{}={}-{}", parameterTypes, parameterTypes[i].getTypeName(),
-						Arrays.toString(parameterTypes[i].getDeclaredAnnotations()));
-				logger.info("GenericParameterType:{}={}-{}", genericParameterTypes[i],
-						genericParameterTypes[i].getTypeName(),
-						Arrays.toString(genericParameterTypes[i].getClass().getAnnotations()));
-			}
-			Map<String, String> header = new HeaderParamrs(request).toMap();
-			Object[] args = { Integer.parseInt(header.get("content-length")) };
-			logger.info("args:{}", Arrays.toString(args));
+			Object[] args = new Methodrs().params(request, method);
 			rs = method.invoke(classMap.get(className(method)), args);
 		}
 		return rs;
 	}
 
-	/*
-	 * public Object invoke(String path, byte[] body) throws Throwable {
-	 * logger.info("path:{}", path); Object rs = null; if
-	 * (methodMap.containsKey(path)) { Method method = methodMap.get(path);
-	 * logger.info("method:{},{}", method.getName(),
-	 * Arrays.toString(method.getParameterTypes())); Object[] args = null; rs =
-	 * method.invoke(classeMap.get(className(method)), body); } return rs; }
-	 */
 	private void path(Object obj) {
 		Class classes = obj.getClass();
 		String p1 = path(classes);

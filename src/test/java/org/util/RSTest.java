@@ -20,7 +20,7 @@ public class RSTest extends HttpServletTest {
 	public void testMethod() {
 		Method[] methods = Clientid.class.getMethods();
 		for (Method method : methods) {
-			if (method.getName().equals("post")) {
+			if (method.getName().equals("post")) {// post
 				Object[] args = new Methodrs().params(request, method);
 				logger.info("params={}", Arrays.toString(args));
 			}

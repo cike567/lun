@@ -1,21 +1,11 @@
 package org.util;
 
 import java.io.File;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import org.AnnotationLoader;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.rest.Clientid;
-import org.rest.rs.Methodrs;
+import org.rest.rs.PathParamrs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +15,6 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class LoaderTest {
-
-	
 
 	// @Test
 	public void testPath() throws Throwable {
@@ -39,6 +27,14 @@ public class LoaderTest {
 	public void testClass() throws ClassNotFoundException {
 		File file = new File("E:\\vagrant\\java\\org\\target\\.\\WEB-INF\\classes\\org\\rest\\Clientid.class");
 		AnnotationLoader.classes(file.getAbsolutePath());
+	}
+
+	@Test
+	public void testRegex() {
+		String path = "/cliendid/{name}/{id}";
+		String url = "/cliendid/cike/1";
+		Map map = new PathParamrs(url, path).toMap();
+		System.out.println(map);
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

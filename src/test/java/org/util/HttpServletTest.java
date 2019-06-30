@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 
+import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -53,13 +54,31 @@ public class HttpServletTest {
 		// getCookies
 		Mockito.when(request.getCookies()).thenReturn(new Cookie[] { cookie });
 
+		// path
+		Mockito.when(request.getRequestURI()).thenReturn("/clientid/cike");
 	}
 
 	public ServletInputStream getInputStream(byte[] body) throws IOException {
-		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
+		final ByteArrayInputStream input = new ByteArrayInputStream(body);
 		ServletInputStream servletInputStream = new ServletInputStream() {
+			// @Override
+			public boolean isFinished() {
+				return false;
+			}
+
+			// @Override
+			public boolean isReady() {
+				return false;
+			}
+
+			// @Override
+			public void setReadListener(ReadListener readListener) {
+
+			}
+
+			@Override
 			public int read() throws IOException {
-				return byteArrayInputStream.read();
+				return input.read();
 			}
 		};
 		return servletInputStream;
