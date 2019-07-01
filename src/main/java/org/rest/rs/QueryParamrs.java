@@ -13,15 +13,11 @@ public class QueryParamrs extends Paramrs {
 	}
 
 	@Override
-	protected Enumeration<String> names(HttpServletRequest request) {
-		return request.getParameterNames();
-	}
-
-	@Override
-	protected void put(HttpServletRequest request, String name) {
-		String p = request.getParameter(name);
-		if (p != null) {
-			paramMap.put(name, p);
+	protected void params(HttpServletRequest request) {
+		Enumeration<String> names = request.getParameterNames();
+		while (names != null && names.hasMoreElements()) {
+			String name = names.nextElement();
+			paramMap.put(name, request.getParameter(name));
 		}
 	}
 

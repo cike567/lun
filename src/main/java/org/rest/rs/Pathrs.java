@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 
 import org.AnnotationLoader;
+import org.rest.Clientid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,7 @@ public class Pathrs {
 
 	public Pathrs() {
 		List<Class> classes = AnnotationLoader.classes(Path.class);
-		// classes.add(Clientid.class);
+		classes.add(Clientid.class);
 		logger.info("classes:{}", classes.toString());
 		classes.forEach((o) -> {
 			try {
@@ -29,8 +30,9 @@ public class Pathrs {
 		logger.info("path_class:{}", classMap.toString());
 	}
 
-	public Object invoke(String path, HttpServletRequest request) throws Throwable {
+	public Object invoke(HttpServletRequest request) throws Throwable {
 		Object rs = null;
+		String path = path(request);
 		if (methodMap.containsKey(path)) {
 			Method method = methodMap.get(path);
 			Object[] args = new Methodrs().params(request, method);
@@ -39,15 +41,32 @@ public class Pathrs {
 		return rs;
 	}
 
+	private String path(HttpServletRequest request) {
+		String path = request.getRequestURI();
+		if (methodMap.containsKey(path)) {
+			return path;
+		}
+		String[] ps = path.split("/");
+		StringBuffer sb = new StringBuffer();
+		for (String p : ps) {
+			sb.append(p).append("/");
+			if (methodMap.containsKey(sb.toString())) {
+				path = sb.toString();
+				break;
+			}
+		}
+		return path;
+	}
+
 	private void path(Object obj) {
 		Class classes = obj.getClass();
-		String p1 = path(classes);
+		String p1 = PathParamrs.path(classes);
 		if (p1 == null) {
 			return;
 		}
 		Method[] mds = classes.getMethods();
 		for (Method method : mds) {
-			String p2 = path(method);
+			String p2 = PathParamrs.path(method);
 			if (p2 == null) {
 				continue;
 			}
@@ -56,19 +75,6 @@ public class Pathrs {
 			methodMap.put(mp, method);
 			classMap.put(cp, obj);
 		}
-	}
-
-	private String path(Method method) {
-		String path = null;
-		if (method.isAnnotationPresent(Path.class)) {
-			path = method.getAnnotation(Path.class).value();
-		}
-		return path;
-	}
-
-	private String path(Class classes) {
-		Path path = (Path) classes.getAnnotation(Path.class);
-		return path.value();
 	}
 
 	private String className(Method method) {

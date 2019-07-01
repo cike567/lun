@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -24,14 +25,14 @@ import org.slf4j.LoggerFactory;
 public class Clientid {
 
 	@GET
-	@Path("/{user}")
-	public String user(@PathParam("user") String user) {// @PathParam("user") String user
-		return user;
+	@Path("/user/{user}/{id}")
+	public String user(@PathParam("user") String user, @PathParam("id") Integer id) {//
+		return user + id;
 	}
 
 	@POST
 	@Path("/body")
-	public String body(byte[] b, @HeaderParam("content-length") String body, HttpServletRequest request) {
+	public String body(byte[] b, String body, HttpServletRequest request) {
 		logger.info("byte:{}", Arrays.toString(b));
 		logger.info("content-length:{}", request.getHeader("content-length"));
 		return body;
@@ -41,8 +42,9 @@ public class Clientid {
 	@POST
 	@Path("/post")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String post(String b, @QueryParam("name") String name, @HeaderParam("content-length") Integer length) {
-		return b.length() + name + length;// ,@CookieParam("sid") String sid
+	public String post(String b, @QueryParam("name") String name, @HeaderParam("content-length") Integer length,
+			@CookieParam("sid") String sid) {
+		return b.length() + name + length;//
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

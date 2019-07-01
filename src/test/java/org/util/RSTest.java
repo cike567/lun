@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.rest.Clientid;
 import org.rest.rs.Methodrs;
+import org.rest.rs.Pathrs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RSTest extends HttpServletTest {
 
-	@Test
+	// @Test
 	public void testMethod() {
 		Method[] methods = Clientid.class.getMethods();
 		for (Method method : methods) {
@@ -26,6 +27,12 @@ public class RSTest extends HttpServletTest {
 			}
 		}
 		System.out.println(System.nanoTime());
+	}
+
+	@Test
+	public void testPath() throws Throwable {
+		Object rs = new Pathrs().invoke(request);
+		System.out.println(rs);
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

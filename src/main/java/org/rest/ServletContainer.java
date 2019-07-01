@@ -23,7 +23,7 @@ public class ServletContainer extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// super.service(req, resp);
 		try {
-			Object rs = path.invoke(request.getRequestURI(), request);
+			Object rs = path.invoke(request);
 			logger.info("return :{}", rs);
 			response.getWriter().print(rs);
 		} catch (Throwable e) {

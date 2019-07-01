@@ -13,13 +13,13 @@ public class HeaderParamrs extends Paramrs {
 	}
 
 	@Override
-	protected Enumeration<String> names(HttpServletRequest request) {
-		return request.getHeaderNames();
-	}
-
-	@Override
-	protected void put(HttpServletRequest request, String name) {
-		paramMap.put(name, request.getHeader(name));
+	protected void params(HttpServletRequest request) {
+		Enumeration<String> names = request.getHeaderNames();
+		while (names != null && names.hasMoreElements()) {
+			String name = names.nextElement();
+			// headerMap.put(name, request.getHeader(name));
+			paramMap.put(name, request.getHeader(name));
+		}
 	}
 
 	@Override

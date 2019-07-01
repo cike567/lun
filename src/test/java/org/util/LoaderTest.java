@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Map;
 
 import org.AnnotationLoader;
-import org.junit.Test;
 import org.rest.rs.PathParamrs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,19 +16,12 @@ import org.slf4j.LoggerFactory;
 public class LoaderTest {
 
 	// @Test
-	public void testPath() throws Throwable {
-		String body = "jaxrs";
-		Object rs = null;// new Pathrs().invoke("/clientid/post", body.getBytes());
-		System.out.println(rs);
-	}
-
-	// @Test
 	public void testClass() throws ClassNotFoundException {
 		File file = new File("E:\\vagrant\\java\\org\\target\\.\\WEB-INF\\classes\\org\\rest\\Clientid.class");
 		AnnotationLoader.classes(file.getAbsolutePath());
 	}
 
-	@Test
+	// @Test
 	public void testRegex() {
 		String path = "/cliendid/{name}/{id}";
 		String url = "/cliendid/cike/1";
