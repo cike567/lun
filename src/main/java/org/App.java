@@ -28,7 +28,6 @@ public class App {
 		} else {
 			embed.startup("/", ".", port);
 		}
-
 	}
 
 	private int port = 9000;

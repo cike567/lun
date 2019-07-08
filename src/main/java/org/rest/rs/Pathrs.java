@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 
 import org.AnnotationLoader;
-import org.rest.Clientid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,7 @@ public class Pathrs {
 
 	public Pathrs() {
 		List<Class> classes = AnnotationLoader.classes(Path.class);
-		classes.add(Clientid.class);
+		// classes.add(Clientid.class);
 		logger.info("classes:{}", classes.toString());
 		classes.forEach((o) -> {
 			try {
@@ -33,6 +32,7 @@ public class Pathrs {
 	public Object invoke(HttpServletRequest request) throws Throwable {
 		Object rs = null;
 		String path = path(request);
+		logger.info("path:{}", path);
 		if (methodMap.containsKey(path)) {
 			Method method = methodMap.get(path);
 			Object[] args = new Methodrs().params(request, method);
@@ -84,8 +84,12 @@ public class Pathrs {
 		return className;
 	}
 
-	private Map<String, Method> methodMap = new HashMap<String, Method>();
-	private Map<String, Object> classMap = new HashMap<String, Object>();
+	public static Map paths() {
+		return methodMap;
+	}
+
+	private static Map<String, Method> methodMap = new HashMap<String, Method>();
+	private static Map<String, Object> classMap = new HashMap<String, Object>();
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 }

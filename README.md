@@ -92,7 +92,9 @@ mvn archetype:generate -X -DarchetypeCatalog=local
 
 mvn test
 
-mvn package -Dmaven.test.skip=true  
+mvn package -DskipTests
+
+mvn exec:exec -Dexec.executable="java" -Dexec.args="-jar target/mvn-1.0-SNAPSHOT-bin.jar"
 ~~~
 
 ~~~
@@ -103,6 +105,52 @@ java -jar  mvn-1.0-SNAPSHOT-bin.jar 8080 ssms.war
 
 ##### jax-rs
 ~~~
-curl http://localhost:9000/application.wadl
+curl http://localhost:9000/application.json
 ~~~
+
+#### docker
+
+> 开启docker远程服务
+
+```
+com.spotify.docker.client.shaded.org.apache.http.conn.HttpHostConnectException
+
+vi /etc/default/docker
+DOCKER_OPTS="-H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375"
+sudo service docker restart
+curl http://192.168.1.10:2375/images/json
+
+docker run -it -p 9000:9000 cike567/jaxrs:1.0-SNAPSHOT #/bin/sh 
+```
+
+```
+docker rmi -f $(docker images | grep "none" | awk '{print $3}')
+```
+
+```
+sudo add-apt-repository ppa:openjdk-r/ppa
+
+sudo apt-get autoclean
+sudo apt-get update
+sudo apt-get upgrade -f
+
+sudo apt-get install openjdk-8-jdk
+sudo update-alternatives --config java
+
+vim /etc/profile
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar 
+export PATH=$PATH:$JAVA_HOME/bin
+source /etc/profile
+
+java -jar -Djava.ext.dirs=. mvn-1.0-SNAPSHOT-bin.jar
+
+```
+
+```
+scp target/mvn-1.0-SNAPSHOT-bin.jar cike@120.77.144.97:~/workspace
+ssh cike@120.77.144.97
+```
+
+
 

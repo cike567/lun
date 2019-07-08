@@ -1,6 +1,7 @@
 package org;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,10 +11,41 @@ import java.util.Map;
 
 public class AnnotationLoader {
 
-	public static void load(String root) {
-		URL url = AnnotationLoader.class.getClassLoader().getResource("/" + root.replaceAll("\\.", "/"));
-		File dir = new File(url.getFile());
-		path(dir);
+	public static void load() {
+		URL url = AnnotationLoader.class.getResource("");
+		System.out.println("url:" + url.getFile() + url.getProtocol());
+		// TODO
+		// Linux
+		if (url.toString().startsWith("jar:")) {
+			try {
+				Jar.classes(url).forEach((f -> {
+					load(f);
+				}));
+				System.out.println(classMap);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+
+		} else {// Windows
+			File dir = new File(url.getFile());
+			path(dir);
+		}
+
+	}
+
+	public static void load(File file) {
+		if (file.getName().endsWith(CLASS)) {
+			put(classes(file.getAbsolutePath()));
+		}
+	}
+
+	public static void load(List<File> files) {
+		System.out.println("class files:" + files);
+		files.forEach((file) -> {
+			if (file.getName().endsWith(CLASS)) {
+				put(classes(file.getAbsolutePath()));
+			}
+		});
 	}
 
 	private static void path(File dir) {
@@ -21,8 +53,8 @@ public class AnnotationLoader {
 			System.out.println(file.getAbsolutePath());
 			if (file.isDirectory()) {
 				path(file);
-			} else if (file.getName().endsWith(CLASS)) {
-				put(classes(file.getAbsolutePath()));
+			} else {
+				load(file);
 			}
 		}
 	}

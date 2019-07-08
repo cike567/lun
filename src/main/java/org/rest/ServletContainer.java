@@ -33,9 +33,9 @@ public class ServletContainer extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
 		super.init(config);
-		AnnotationLoader.load("/");
+		System.out.println("config" + config);
+		AnnotationLoader.load();
 		path = new Pathrs();
 	}
 

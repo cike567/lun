@@ -86,7 +86,7 @@ public class PathParamrs extends Paramrs {
 	}
 
 	public static String path(String path) {
-		String[] ps = PathParamrs.match(path);
+		String[] ps = match(path);
 		if (!path.equals(ps[0]) || ps.length > 1) {
 			path = String.join("", ps).replaceAll("/+", "/");
 		}

@@ -50,6 +50,6 @@ public abstract class War {
 	}
 
 	protected final String WEBAPP = "/src/main/webapp";
-	protected final String CLASSES = "/WEB-INF/classes";
+	public static final String CLASSES = "/WEB-INF/classes";
 
 }

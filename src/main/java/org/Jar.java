@@ -10,6 +10,7 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -72,6 +73,25 @@ public class Jar {
 		return urls;
 	}
 
+	public static List<File> classes(URL url) throws IOException {
+		JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
+		JarFile jarFile = jarURLConnection.getJarFile();
+		String path = sub(url.getPath(), "jar!/");
+		System.out.println("jar!:" + path);
+
+		for (Enumeration<JarEntry> enumeration = jarFile.entries(); enumeration.hasMoreElements();) {
+			JarEntry jarEntry = enumeration.nextElement();
+			String name = jarEntry.getName();
+			System.out.println("jar name:" + name);
+			if (name.contains(path) && name.endsWith(CLASS)) {
+				File file = new File(name);
+				System.out.println("class file:" + file.getAbsolutePath());
+				classFile.add(file);
+			}
+		}
+		return classFile;
+	}
+
 	public static void cp(String path, String dir) throws IOException {
 		URL url = Jar.class.getResource(path);
 		if (url != null) {
@@ -84,15 +104,22 @@ public class Jar {
 		JarFile jarFile = jarURLConnection.getJarFile();
 		String path = sub(url.getPath(), "jar!/");
 		System.out.println("jar!:" + path);
+
 		for (Enumeration<JarEntry> enumeration = jarFile.entries(); enumeration.hasMoreElements();) {
 			JarEntry jarEntry = enumeration.nextElement();
 			String name = jarEntry.getName();
+			System.out.println("jar name:" + name);
 			if (name.contains(path)) {
 				File file = new File(dir, name.replace(path, ""));
 				System.out.println("cp:" + file.getAbsolutePath());
 				write(file, jarFile.getInputStream(jarEntry));
+				// load(file);
 			}
 		}
+	}
+
+	public static List<File> classes() {
+		return classFile;
 	}
 
 	private static String sub(String temp, String fix) {
@@ -132,8 +159,12 @@ public class Jar {
 		}
 	}
 
+	private static List<File> classFile = new ArrayList<File>();
+
 	private final static String MF = "/META-INF/MANIFEST.MF";
 
 	private final static String CLASS_PATH = "Class-Path:";
+
+	private final static String CLASS = ".class";
 
 }

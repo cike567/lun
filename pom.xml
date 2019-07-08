@@ -19,8 +19,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<dockerfile.version>1.4.10</dockerfile.version>
 
-        <servlet.version>3.0.1</servlet.version>
+		<servlet.version>3.0.1</servlet.version>
 		<tomcat.version>9.0.13</tomcat.version>
 		<rs.version>2.1.5</rs.version>
 		<lombok.version>1.18.4</lombok.version>
@@ -38,6 +39,7 @@
 			<artifactId>jakarta.ws.rs-api</artifactId>
 			<version>${rs.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-websocket</artifactId>
@@ -82,21 +84,19 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-core</artifactId>
-    <version>${mockito.version}</version>
-    <scope>test</scope>
-</dependency>
-		
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 
 	<build>
 		<plugins>
-			<!-- <plugin> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-maven-plugin</artifactId> 
-				<version>${jetty.version}</version> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -123,6 +123,30 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>${dockerfile.version}</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>cike567/jaxrs</repository>
+					<dockerHost>http://192.168.1.110:2375</dockerHost>
+					<tag>${project.version}</tag>
+					<buildArgs>
+						<JAR_FILE>${project.build.finalName}-bin.jar</JAR_FILE>
+						<WAR_PORT>9000</WAR_PORT>
+					</buildArgs>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
