@@ -64,7 +64,6 @@ public class Methodrs {
 		} else if (a instanceof PathParam) {
 			param = path.param(((PathParam) a).value());
 		}
-
 		return param;
 	}
 

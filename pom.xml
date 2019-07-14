@@ -21,6 +21,8 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<dockerfile.version>1.4.10</dockerfile.version>
 
+		<druid.version>1.1.18</druid.version>
+		<h2.version>1.4.199</h2.version>
 		<servlet.version>3.0.1</servlet.version>
 		<tomcat.version>9.0.13</tomcat.version>
 		<rs.version>2.1.5</rs.version>
@@ -33,13 +35,34 @@
 	</properties>
 
 	<dependencies>
+        <!-- db -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
 
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+        <!-- jaxrs -->
 		<dependency>
 			<groupId>jakarta.ws.rs</groupId>
 			<artifactId>jakarta.ws.rs-api</artifactId>
 			<version>${rs.version}</version>
 		</dependency>
 
+        <!-- tomcat -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-websocket</artifactId>
@@ -64,14 +87,12 @@
 			<version>${logback.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -91,10 +112,7 @@
 			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
-
-
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
