@@ -92,7 +92,7 @@ mvn archetype:generate -X -DarchetypeCatalog=local
 
 mvn test
 
-mvn package -DskipTests
+mvn package -DskipTests -Ddockerfile.skip
 
 mvn exec:exec -Dexec.executable="java" -Dexec.args="-jar target/mvn-1.0-SNAPSHOT-bin.jar"
 ~~~
@@ -107,6 +107,16 @@ java -jar  mvn-1.0-SNAPSHOT-bin.jar 8080 ssms.war
 ~~~
 curl http://localhost:9000/application.json
 ~~~
+
+#### druid
+```
+curl http://localhost:9000/druid/index.html
+```
+
+#### h2
+```
+java -jar h2-1.4.199.jar -webAllowOthers
+```
 
 #### docker
 
@@ -151,6 +161,7 @@ java -jar -Djava.ext.dirs=. mvn-1.0-SNAPSHOT-bin.jar
 scp target/mvn-1.0-SNAPSHOT-bin.jar cike@120.77.144.97:~/workspace
 ssh cike@120.77.144.97
 ```
+
 
 
 

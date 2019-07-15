@@ -1,16 +1,26 @@
 package org.util;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.db.DruidMapper;
 import org.db.Mapper;
+import org.db.MapperHandler;
+import org.db.MapperProxy;
+import org.junit.Before;
 import org.junit.Test;
 import org.oauth2.OauthMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DBTest {
+
+	@Before
+	public void mapper() {
+		Mapper.query(OauthMapper.class);
+	}
 
 	// @Test
 	public void testDruid() throws SQLException {
@@ -21,9 +31,19 @@ public class DBTest {
 
 	@Test
 	public void testMapper() throws SQLException {
-		OauthMapper mapper = Mapper.getMapper(OauthMapper.class);
+
+		OauthMapper mapper = MapperProxy.getMapper(OauthMapper.class);
 		List list = mapper.selectOauthClientDetails();
-		logger.debug("{}", list);
+		logger.debug("List:{}", list);
+		Map map = mapper.selectByClientId("test");
+		logger.debug("Map:{}", map);
+		String oauth = mapper.selectAuthorized("test", "123456");
+		logger.debug("clumn:{}", oauth);
+	}
+
+	// @Test
+	public void testResultSet() {
+		new MapperHandler().resultSet(new ArrayList(), Map.class);
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

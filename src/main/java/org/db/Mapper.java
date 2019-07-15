@@ -1,22 +1,26 @@
 package org.db;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
-import org.oauth2.OauthMapper;
+import org.AnnotationLoader;
 
 public class Mapper {
-	public static Map<String, Map<Method, String>> mapperMap = new HashMap();
-	static {
-		query(OauthMapper.class);
+
+	public static void sql() {
+		List<Class> classes = AnnotationLoader.classes(NamedQueries.class);
+		classes.forEach((c) -> {
+			query(c);
+		});
+		// query(OauthMapper.class);
 	}
 
-	private static void query(Class classes) {
+	public static void query(Class classes) {
 		Method[] methods = classes.getMethods();
 		Map<String, Method> methodMap = new HashMap(methods.length);
 		for (Method method : methods) {
@@ -35,10 +39,6 @@ public class Mapper {
 		}
 	}
 
-	public static <T> T getMapper(Class<T> classes) {
-		return (T) Proxy.newProxyInstance(classes.getClassLoader(), new Class[] { classes }, new MapperHandler());
-	}
-
 	public static String query(Method method) {
 		String query = "";
 		String name = method.getName();
@@ -47,5 +47,7 @@ public class Mapper {
 		}
 		return query;
 	}
+
+	public static Map<String, Map<Method, String>> mapperMap = new HashMap();
 
 }

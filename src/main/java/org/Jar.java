@@ -82,7 +82,7 @@ public class Jar {
 		for (Enumeration<JarEntry> enumeration = jarFile.entries(); enumeration.hasMoreElements();) {
 			JarEntry jarEntry = enumeration.nextElement();
 			String name = jarEntry.getName();
-			System.out.println("jar name:" + name);
+			// System.out.println("jar name:" + name);
 			if (name.contains(path) && name.endsWith(CLASS)) {
 				File file = new File(name);
 				System.out.println("class file:" + file.getAbsolutePath());
@@ -108,7 +108,7 @@ public class Jar {
 		for (Enumeration<JarEntry> enumeration = jarFile.entries(); enumeration.hasMoreElements();) {
 			JarEntry jarEntry = enumeration.nextElement();
 			String name = jarEntry.getName();
-			System.out.println("jar name:" + name);
+			// System.out.println("jar name:" + name);
 			if (name.contains(path)) {
 				File file = new File(dir, name.replace(path, ""));
 				System.out.println("cp:" + file.getAbsolutePath());

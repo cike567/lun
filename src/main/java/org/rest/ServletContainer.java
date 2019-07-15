@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.AnnotationLoader;
+import org.db.DruidMapper;
+import org.db.Mapper;
 import org.rest.rs.Pathrs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +26,12 @@ public class ServletContainer extends HttpServlet {
 		// super.service(req, resp);
 		try {
 			Object rs = path.invoke(request);
-			logger.info("return :{}", rs);
-			response.getWriter().print(rs);
+			if (rs != null) {
+				logger.info("return :{}", rs);
+				response.getWriter().print(rs);
+			} else if (!welcome(request, response)) {
+				e404(response);
+			}
 		} catch (Throwable e) {
 			logger.error(e.getMessage());
 		}
@@ -36,7 +42,23 @@ public class ServletContainer extends HttpServlet {
 		super.init(config);
 		System.out.println("config" + config);
 		AnnotationLoader.load();
+		Mapper.sql();
+		DruidMapper.connect();
 		path = new Pathrs();
+	}
+
+	private void e404(HttpServletResponse response) throws IOException {
+		response.sendError(HttpServletResponse.SC_NOT_FOUND);
+	}
+
+	private boolean welcome(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		boolean flag = false;
+		if (request.getRequestURI().equals("/")) {
+			request.getRequestDispatcher("/application.json").forward(request, response);
+			flag = true;
+		}
+		return flag;
 	}
 
 	private Pathrs path;

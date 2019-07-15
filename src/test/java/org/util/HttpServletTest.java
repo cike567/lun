@@ -55,7 +55,7 @@ public class HttpServletTest {
 		Mockito.when(request.getCookies()).thenReturn(new Cookie[] { cookie });
 
 		// path
-		Mockito.when(request.getRequestURI()).thenReturn("/clientid/user/cike/9");
+		Mockito.when(request.getRequestURI()).thenReturn("/clientid/user/test1");
 	}
 
 	public ServletInputStream getInputStream(byte[] body) throws IOException {

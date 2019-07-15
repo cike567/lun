@@ -3,7 +3,11 @@ package org.util;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import org.AnnotationLoader;
+import org.db.Mapper;
+import org.junit.Before;
 import org.junit.Test;
+import org.oauth2.OauthMapper;
 import org.rest.Clientid;
 import org.rest.rs.Methodrs;
 import org.rest.rs.Pathrs;
@@ -17,11 +21,17 @@ import org.slf4j.LoggerFactory;
  */
 public class RSTest extends HttpServletTest {
 
+	@Before
+	public void mapper() {
+		AnnotationLoader.put(Clientid.class);
+		Mapper.query(OauthMapper.class);
+	}
+
 	// @Test
 	public void testMethod() {
 		Method[] methods = Clientid.class.getMethods();
 		for (Method method : methods) {
-			if (method.getName().equals("post")) {// post
+			if (method.getName().equals("user")) {// post
 				Object[] args = new Methodrs().params(request, method);
 				logger.info("params={}", Arrays.toString(args));
 			}

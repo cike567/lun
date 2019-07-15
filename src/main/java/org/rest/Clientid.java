@@ -1,6 +1,6 @@
 package org.rest;
 
-import java.util.Arrays;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.db.MapperProxy;
+import org.oauth2.OauthMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,26 +27,25 @@ import org.slf4j.LoggerFactory;
 public class Clientid {
 
 	@GET
-	@Path("/user/{user}/{id}")
-	public String user(@PathParam("user") String user, @PathParam("id") Integer id) {//
-		return user + id;
-	}
-
-	@POST
-	@Path("/body")
-	public String body(byte[] b, String body, HttpServletRequest request) {
-		logger.info("byte:{}", Arrays.toString(b));
-		logger.info("content-length:{}", request.getHeader("content-length"));
-		return body;
-
+	@Path("/user/{user}")
+	public String user(@PathParam("user") String user) {//
+		String rs = "";
+		logger.debug("user:{}", user);
+		OauthMapper mapper = MapperProxy.getMapper(OauthMapper.class);
+		logger.debug("mapper:{}", mapper);
+		Map map = mapper.selectByClientId(user);
+		if (map != null) {
+			rs = map.toString();
+		}
+		return rs;
 	}
 
 	@POST
 	@Path("/post")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String post(String b, @QueryParam("name") String name, @HeaderParam("content-length") Integer length,
-			@CookieParam("sid") String sid) {
-		return b.length() + name + length;//
+	public String post(byte[] b, String body, @QueryParam("name") String name,
+			@HeaderParam("content-length") Integer length, @CookieParam("sid") String sid, HttpServletRequest request) {
+		return body + name + length;//
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

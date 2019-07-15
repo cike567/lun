@@ -21,7 +21,7 @@ public class AnnotationLoader {
 				Jar.classes(url).forEach((f -> {
 					load(f);
 				}));
-				System.out.println(classMap);
+				System.out.println("jar:" + classMap);
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -59,7 +59,7 @@ public class AnnotationLoader {
 		}
 	}
 
-	private static void put(Class clazz) {
+	public static void put(Class clazz) {
 		if (clazz != null) {
 			for (Annotation a : clazz.getAnnotations()) {
 				List<Class> classes;
@@ -92,6 +92,9 @@ public class AnnotationLoader {
 	}
 
 	public static List<Class> classes(Class clazz) {
+		if (classMap.size() == 0) {
+			AnnotationLoader.load();
+		}
 		return classMap.containsKey(clazz) ? classMap.get(clazz) : new ArrayList<Class>();
 	}
 
