@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="static/js/vue.min.js">
+</script>
+<script src="static/js/vue-resource.js">
+</script>
+<style>
+	#ask{width:90%}
+</style>
+</head>
+<body>
+<div id="app">
+	<input type="text" id="ask">
+	<button v-on:click="send">
+		发送
+	</button>
+	<hr>
+	{{ answer }}
+</div>
+</body>
+<script type="text/javascript">
+	var app = new Vue({
+		el: '#app',
+		data: {
+			answer: 'Chrome Websokcet EndPoint!'
+		},
+		methods: {
+			send: function(event) {
+				var data = ask.value;
+				this.$http.post('/json/ws', data).then(function(res) {
+					this.answer = res.bodyText;
+				},
+				function(res) {
+					alert(res.status)
+				});
+			}
+		}
+	})
+</script>
+</html>
