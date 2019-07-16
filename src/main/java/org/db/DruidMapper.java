@@ -13,6 +13,11 @@ import javax.sql.DataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.alibaba.druid.util.JdbcUtils;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class DruidMapper {
 
 	public static void connect() {
@@ -38,7 +43,7 @@ public class DruidMapper {
 
 	public static List<Map<String, Object>> query(String sql, Object... parameters) throws SQLException {
 		List<Map<String, Object>> rs = new ArrayList<Map<String, Object>>();
-		if (parameters == null) {
+		if (parameters == null || parameters.length == 0) {
 			rs = JdbcUtils.executeQuery(dataSource, sql);
 		} else {
 			rs = JdbcUtils.executeQuery(dataSource, sql, parameters);

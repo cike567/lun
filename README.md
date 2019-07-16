@@ -8,7 +8,9 @@
 
 > 基于jax-rs的rest最简路由
 
-> 扩展druid实现jpa的NamedQuery注解#### 原理
+> 扩展druid实现jpa的NamedQuery注解
+
+> docker容器
 
 ## 使用说明
 
@@ -22,7 +24,6 @@ mvn package -DskipTests -Ddockerfile.skip
 mvn exec:exec -Dexec.executable="java" -Dexec.args="-jar target/lun-1.0-SNAPSHOT-bin.jar"
 ```
 
-
 ### jar
 
 > java -jar *.jar，通过读取jar包内/META-INF/MANIFEST.MF，将jar包内的依赖包复制至./lib，类加载器会自动加载
@@ -34,6 +35,7 @@ java -jar  lun-1.0-SNAPSHOT-bin.jar 9000 ssms.war
 ```
 
 ### h2
+
 ```
 java -jar h2-1.4.199.jar -webAllowOthers
 ```
@@ -60,6 +62,7 @@ docker rmi -f $(docker images | grep "none" | awk '{print $3}')
 ```
 
 ### jax-rs
+
 ```
 curl http://localhost:9000/application.json
 ```

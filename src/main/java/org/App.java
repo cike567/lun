@@ -23,7 +23,7 @@ public class App {
 		if (arg.length > 0) {
 			port = Integer.parseInt(arg[0]);
 		}
-		if (arg.length == 2) {
+		if (arg.length == MAX) {
 			String war = arg[1];
 			embed.startup(war, port);
 		} else {
@@ -32,5 +32,7 @@ public class App {
 	}
 
 	private int port = 9000;
+
+	private final int MAX = 2;
 
 }

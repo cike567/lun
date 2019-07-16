@@ -9,9 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public abstract class Paramrs {
 
-	Paramrs() {
+	protected Paramrs() {
 	}
 
 	public Paramrs(HttpServletRequest request) {// , Method method
@@ -19,8 +24,17 @@ public abstract class Paramrs {
 		logger.info("param:{}", paramMap);
 	}
 
+	/**
+	 * 
+	 * @param request
+	 */
 	protected abstract void params(HttpServletRequest request);
 
+	/**
+	 * 
+	 * @param pas
+	 * @return
+	 */
 	protected abstract Object param(Annotation pas);
 
 	public Object param(String key) {

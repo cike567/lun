@@ -10,6 +10,11 @@ import javax.persistence.NamedQuery;
 
 import org.AnnotationLoader;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class Mapper {
 
 	public static void sql() {

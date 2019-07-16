@@ -16,6 +16,11 @@ import javax.ws.rs.QueryParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class Methodrs {
 
 	public Object[] params(HttpServletRequest request, Method method) {
@@ -29,7 +34,7 @@ public class Methodrs {
 		path = new PathParamrs(request, method);
 		Bodyrs body = new Bodyrs(request);
 		// TODO
-		Map<String, Object> paramMap = new HashMap<String, Object>() {
+		Map<String, Object> paramMap = new HashMap<String, Object>(3) {
 			{
 				put("byte[]", body.toByte());
 				put(String.class.getName(), body.toString());

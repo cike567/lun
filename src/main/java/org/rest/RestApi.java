@@ -62,6 +62,7 @@ public class RestApi extends Application {
 		params = Arrays.toString(types);
 	}
 
+	@Override
 	public String toString() {
 		return String.format("%s %s (%s)", method, path, params);
 	}

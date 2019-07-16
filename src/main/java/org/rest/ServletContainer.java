@@ -16,6 +16,11 @@ import org.rest.rs.Pathrs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 @WebServlet(urlPatterns = { "/*" })
 public class ServletContainer extends HttpServlet {
 
@@ -54,12 +59,14 @@ public class ServletContainer extends HttpServlet {
 	private boolean welcome(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		boolean flag = false;
-		if (request.getRequestURI().equals("/")) {
+		if (ROOT.equals(request.getRequestURI())) {
 			request.getRequestDispatcher("/application.json").forward(request, response);
 			flag = true;
 		}
 		return flag;
 	}
+
+	private final String ROOT = "/";
 
 	private Pathrs path;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

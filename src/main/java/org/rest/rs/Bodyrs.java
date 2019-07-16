@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class Bodyrs {
 
 	public Bodyrs(HttpServletRequest request) {
@@ -52,6 +57,7 @@ public class Bodyrs {
 		return byt;
 	}
 
+	@Override
 	public String toString() {
 		if (byt == null || byt.length == 0) {
 			return "";
@@ -59,14 +65,23 @@ public class Bodyrs {
 		return new String(byt, Charset.forName("UTF-8"));
 	}
 
-	//// TODO toMap
+	/**
+	 * TODO toMap
+	 * 
+	 * @return
+	 */
 	public Map<String, Object> toMap() {
-		Map<String, Object> map = new HashMap();
+		Map<String, Object> map = new HashMap(10);
 		String body = toString();
 		return map;
 	}
 
-	//// TODO toClass
+	/**
+	 * TODO toClass
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	public <T> T toClass(Class<T> clazz) {
 		T t = null;
 		try {
@@ -79,8 +94,6 @@ public class Bodyrs {
 	}
 
 	private byte[] byt;
-
-	// private HttpServletRequest request;
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 

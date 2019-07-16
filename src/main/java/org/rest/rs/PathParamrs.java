@@ -4,7 +4,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class PathParamrs extends Paramrs {
 
 	public PathParamrs(HttpServletRequest request, Method method) {
@@ -75,10 +79,6 @@ public class PathParamrs extends Paramrs {
 			}
 			paramMap.put(rs.get(i - 1), v);
 		}
-	}
-
-	public Map<String, Object> toMap() {
-		return paramMap;
 	}
 
 	public static String[] match(String path) {

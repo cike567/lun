@@ -6,6 +6,11 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.QueryParam;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class QueryParamrs extends Paramrs {
 
 	public QueryParamrs(HttpServletRequest request) {// , Method method

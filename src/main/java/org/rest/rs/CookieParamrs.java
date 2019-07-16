@@ -6,6 +6,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.CookieParam;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class CookieParamrs extends Paramrs {
 
 	public CookieParamrs(HttpServletRequest request) {

@@ -15,14 +15,20 @@ import org.oauth2.OauthMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DBTest {
+/**
+ * 
+ * @author cike
+ *
+ */
+public class DbTest {
 
 	@Before
 	public void mapper() {
 		Mapper.query(OauthMapper.class);
+		DruidMapper.connect();
 	}
 
-	// @Test
+	@Test
 	public void testDruid() throws SQLException {
 		String sql = "SELECT * FROM OAUTH_CLIENT_DETAILS";
 		List list = DruidMapper.query(sql);
@@ -31,7 +37,6 @@ public class DBTest {
 
 	@Test
 	public void testMapper() throws SQLException {
-
 		OauthMapper mapper = MapperProxy.getMapper(OauthMapper.class);
 		List list = mapper.selectOauthClientDetails();
 		logger.debug("List:{}", list);
@@ -41,7 +46,7 @@ public class DBTest {
 		logger.debug("clumn:{}", oauth);
 	}
 
-	// @Test
+	@Test
 	public void testResultSet() {
 		new MapperHandler().resultSet(new ArrayList(), Map.class);
 	}

@@ -9,6 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class AnnotationLoader {
 
 	public static void load() {
@@ -16,7 +21,7 @@ public class AnnotationLoader {
 		System.out.println("url:" + url.getFile() + url.getProtocol());
 		// TODO
 		// Linux
-		if (url.toString().startsWith("jar:")) {
+		if (url.toString().startsWith(JAR)) {
 			try {
 				Jar.classes(url).forEach((f -> {
 					load(f);
@@ -98,6 +103,7 @@ public class AnnotationLoader {
 		return classMap.containsKey(clazz) ? classMap.get(clazz) : new ArrayList<Class>();
 	}
 
+	private final static String JAR = "jar:";
 	private final static String CLASS = ".class";
 	private final static String CLASSES = "classes";
 	public static Map<Class, List<Class>> classMap = new HashMap<Class, List<Class>>();

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author cike
  *
  */
-public class RSTest extends HttpServletTest {
+public class RsTest extends HttpServletTest {
 
 	@Before
 	public void mapper() {
@@ -27,11 +27,11 @@ public class RSTest extends HttpServletTest {
 		Mapper.query(OauthMapper.class);
 	}
 
-	// @Test
+	@Test
 	public void testMethod() {
 		Method[] methods = Clientid.class.getMethods();
 		for (Method method : methods) {
-			if (method.getName().equals("user")) {// post
+			if ("user".equals(method.getName())) {
 				Object[] args = new Methodrs().params(request, method);
 				logger.info("params={}", Arrays.toString(args));
 			}

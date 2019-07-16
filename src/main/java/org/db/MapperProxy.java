@@ -3,6 +3,11 @@ package org.db;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class MapperProxy {
 
 	public static <T> T getMapper(Class<T> classes) {

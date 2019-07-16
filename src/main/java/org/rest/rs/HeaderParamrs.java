@@ -6,6 +6,11 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.HeaderParam;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 public class HeaderParamrs extends Paramrs {
 
 	public HeaderParamrs(HttpServletRequest request) {

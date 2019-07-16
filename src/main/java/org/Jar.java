@@ -68,7 +68,7 @@ public class Jar {
 			File file = new File(names[i]);
 			System.out.println("jar:" + file.getAbsolutePath());
 			write(file, url.openStream());
-			urls[i] = file.toURL();
+			urls[i] = file.toURI().toURL();
 		}
 		return urls;
 	}
@@ -137,12 +137,12 @@ public class Jar {
 	private static void write(File file, InputStream input) throws IOException {
 		if (!file.exists()) {
 			String name = file.getName();
-			if (file.isFile() || name.contains(".")) {
+			if (file.isFile() || name.contains(CD)) {
 				if (file.getParentFile() != null && !file.getParentFile().exists()) {
 					file.getParentFile().mkdirs();
 				}
 				file.createNewFile();
-			} else if (file.isDirectory() || !name.contains(".")) {
+			} else if (file.isDirectory() || !name.contains(CD)) {
 				file.mkdirs();
 			}
 		}
@@ -166,5 +166,7 @@ public class Jar {
 	private final static String CLASS_PATH = "Class-Path:";
 
 	private final static String CLASS = ".class";
+
+	private final static String CD = ".";
 
 }

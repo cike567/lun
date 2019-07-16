@@ -2,6 +2,11 @@ package org.oauth2;
 
 import javax.persistence.Table;
 
+/**
+ * 
+ * @author cike
+ *
+ */
 @Table
 public class OauthClientDetails {
 

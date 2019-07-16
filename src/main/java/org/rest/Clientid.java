@@ -45,7 +45,7 @@ public class Clientid {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String post(byte[] b, String body, @QueryParam("name") String name,
 			@HeaderParam("content-length") Integer length, @CookieParam("sid") String sid, HttpServletRequest request) {
-		return body + name + length;//
+		return body + name + length;
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
