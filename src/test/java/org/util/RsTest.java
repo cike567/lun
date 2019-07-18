@@ -11,6 +11,7 @@ import org.oauth2.OauthMapper;
 import org.rest.Clientid;
 import org.rest.rs.Methodrs;
 import org.rest.rs.Pathrs;
+import org.rili.Holiday;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,7 @@ public class RsTest extends HttpServletTest {
 
 	@Before
 	public void mapper() {
-		AnnotationLoader.put(Clientid.class);
+		AnnotationLoader.put(Holiday.class);
 		Mapper.query(OauthMapper.class);
 	}
 
@@ -31,7 +32,7 @@ public class RsTest extends HttpServletTest {
 	public void testMethod() {
 		Method[] methods = Clientid.class.getMethods();
 		for (Method method : methods) {
-			if ("user".equals(method.getName())) {
+			if ("month".equals(method.getName())) {
 				Object[] args = new Methodrs().params(request, method);
 				logger.info("params={}", Arrays.toString(args));
 			}

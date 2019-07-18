@@ -3,13 +3,20 @@ package org.rili;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.App;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import lombok.Data;
 
@@ -21,20 +28,10 @@ import lombok.Data;
 @Data
 public class Leave {
 
-	public Leave(String name, String holiday) {
-		this(name, holiday, "");
-	}
-
-	public Leave(String name, String holiday, String weekday) {
-		this.name = name;
-		this.weekdays = Arrays.asList(weekday.split(","));
-		this.holidays = Arrays.asList(holiday.split(","));
-	}
-
-	public Leave(int year) {
-		name = String.valueOf(year);
-		weekdays = new ArrayList<String>();
-		holidays = new ArrayList<String>();
+	private Leave(int year) {
+		this.year = year;
+		weekdays = new TreeSet<String>();
+		holidays = new TreeSet<String>();
 		weekday(year);
 		int min = 1;
 		LocalDate date = LocalDate.ofYearDay(year, min);
@@ -48,7 +45,30 @@ public class Leave {
 			min++;
 			date = date.plusDays(1);
 		}
+	}
 
+	public List<String> month(Set<String> days, Integer month) {
+		month = month(month);
+		String min = String.format("%s-%02d-01", year, month);
+		String max = String.format("%s-%02d-31", year, month);
+		return between(days, min, max);
+	}
+
+	public List<String> week(Set<String> days, Integer week) {
+		LocalDate now = LocalDate.now();
+		if (week != null) {
+			now = now.plusWeeks(week);
+		}
+		LocalDate min = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+		LocalDate max = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+		return between(days, min.toString(), max.toString());
+	}
+
+	private List<String> between(Set<String> days, String min, String max) {
+		logger.debug("{}:{},{}", min, max, days);
+		return days.stream().filter((d) -> {
+			return d.compareTo(min) >= 0 && d.compareTo(max) <= 0;
+		}).collect(Collectors.toList());
 	}
 
 	private boolean holiday(LocalDate date) {
@@ -83,32 +103,40 @@ public class Leave {
 		}
 	}
 
-	/**
-	 * 
-	 */
-	private static List<Leave> Y2019 = new ArrayList<Leave>() {
-		{
-			add(new Leave("元旦", "2018-12-30,2018-12-31,2019-01-01", "2018-12-29"));
-			add(new Leave("春节", "2019-02-04,2019-02-05,019-02-06,2019-02-07,2019-02-08,2019-02-09,2019-02-10",
-					"2019-02-02,2019-02-03"));
-			add(new Leave("清明节", "2019-04-05"));
-			add(new Leave("劳动节", "2019-05-01,2019-05-02,2019-05-03,2019-05-04", "2019-04-28,2019-05-05"));
-			add(new Leave("中秋节", "2019-09-13"));
-			add(new Leave("国庆节", "2019-10-01,2019-10-02,2019-10-03,2019-10-04,2019-10-05,2019-10-06,2019-10-07",
-					"2019-09-29,2019-10-12"));
-		}
-	};
-
 	@Override
 	public String toString() {
-		return String.format("%s:%s-%s", name, holidays, weekdays);
+		return String.format("%s:%s-%s", year, holidays, weekdays);
 	}
+
+	public static Integer year(Integer year) {
+		return year == null ? year = LocalDate.now().getYear() : year;
+	}
+
+	public static Integer month(Integer month) {
+		return month == null ? month = LocalDate.now().getMonthValue() : month;
+	}
+
+	public static Leave on(Integer year) {
+		year = year(year);
+		Leave leave = null;
+		if (leaveMap.containsKey(year)) {
+			leave = leaveMap.get(year);
+		} else {
+			leave = new Leave(year);
+			leaveMap.put(year, leave);
+		}
+		return leave;
+	}
+
+	private static Map<Integer, Leave> leaveMap = new HashMap<Integer, Leave>(9);
 
 	private final String RILI = "rili";
 	private final String CSV = "%s.csv";
 
-	private String name;
-	private List<String> weekdays;
-	private List<String> holidays;
+	private int year;
+	private Set<String> weekdays;
+	private Set<String> holidays;
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 }
