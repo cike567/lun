@@ -27,13 +27,14 @@ public class ServletContainer extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
+		response.setHeader("Content-type", "text/html;charset=" + Charset);
+		response.setCharacterEncoding(Charset);
 		// super.service(req, resp);
 		try {
 			Object rs = path.invoke(request);
 			if (rs != null) {
 				logger.info("return :{}", rs);
-				response.getWriter().print(rs);
+				response.getOutputStream().write(rs.toString().getBytes(Charset));
 			} else if (!welcome(request, response)) {
 				e404(response);
 			}
@@ -67,6 +68,7 @@ public class ServletContainer extends HttpServlet {
 	}
 
 	private final String ROOT = "/";
+	private final String Charset = "UTF-8";
 
 	private Pathrs path;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

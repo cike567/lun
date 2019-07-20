@@ -66,18 +66,20 @@ public class PathParamrs extends Paramrs {
 			return;
 		}
 		String[] ps = match(path);
-		String args = url.substring(ps[0].length());
-		for (int i = 1; i <= ps.length; i++) {
-			int j = -1;
-			if (ps.length > i) {
-				j = args.indexOf(ps[i]);
+		if (url.length() > ps[0].length()) {
+			String args = url.substring(ps[0].length());
+			for (int i = 1; i <= ps.length; i++) {
+				int j = -1;
+				if (ps.length > i) {
+					j = args.indexOf(ps[i]);
+				}
+				String v = args;
+				if (j > -1) {
+					v = args.substring(0, j);
+					args = args.substring(j + 1);
+				}
+				paramMap.put(rs.get(i - 1), v);
 			}
-			String v = args;
-			if (j > -1) {
-				v = args.substring(0, j);
-				args = args.substring(j + 1);
-			}
-			paramMap.put(rs.get(i - 1), v);
 		}
 	}
 
