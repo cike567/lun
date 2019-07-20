@@ -11,6 +11,6 @@ public class AppTest {
 
 	@Test
 	public void test() {
-		System.out.println("2018/11/01".replace("/", "-"));
+
 	}
 }

@@ -27,7 +27,7 @@ public class ServletContainer extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Content-type", "text/html;charset=UTF-8");
+		response.setHeader("Content-type", "text/html;charset=" + Charset);
 		response.setCharacterEncoding(Charset);
 		// super.service(req, resp);
 		try {
