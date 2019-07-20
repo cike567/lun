@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * @author cike
  *
  */
-public class RiliTest {
+public class NianTest {
 
 	@Test
 	public void date() {

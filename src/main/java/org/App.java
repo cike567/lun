@@ -56,6 +56,8 @@ public class App {
 	private static Properties properties = new Properties();
 
 	private final static String CONF = "application.properties";
+	public final static String JDBC = "jdbc";
+	public final static String PROJ = "project";
 
 	private int port = 9000;
 

@@ -1,6 +1,11 @@
-package org.rili;
+package org.nian;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -33,6 +38,17 @@ public class Holiday {
 	public String week(@PathParam("week") Integer week) {
 		Leave leave = Leave.on(LocalDate.now().getYear());
 		return leave.week(leave.getHolidays(), week).toString();
+	}
+
+	@Path("/day/{day}")
+	public String day(@PathParam("day") String day) {
+		Map<Integer, List<String>> dayMap = Leave.dayMap(day);
+		Set<String> set = new TreeSet<String>();
+		for (Entry<Integer, List<String>> entry : dayMap.entrySet()) {
+			Leave leave = Leave.on(entry.getKey());
+			set.addAll(leave.day(leave.getHolidays(), entry.getValue()));
+		}
+		return set.toString();
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

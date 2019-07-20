@@ -52,12 +52,10 @@ public class RestApi extends Application {
 	}
 
 	private void method(Method method) {
-		if (method.getAnnotation(GET.class) != null) {
-			this.method = GET.class.getSimpleName();
-		} else if (method.getAnnotation(POST.class) != null) {
+		this.method = GET.class.getSimpleName();
+		if (method.getAnnotation(POST.class) != null) {
 			this.method = POST.class.getSimpleName();
 		}
-
 		Type[] types = method.getGenericParameterTypes();
 		params = Arrays.toString(types);
 	}

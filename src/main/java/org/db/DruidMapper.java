@@ -22,7 +22,7 @@ import com.alibaba.druid.util.JdbcUtils;
 public class DruidMapper {
 
 	public static void connect() {
-		String jdbc = App.get("jdbc", JDBC);
+		String jdbc = App.get(App.JDBC, JDBC);
 		Properties properties = new Properties();
 		try (InputStream input = DruidMapper.class.getClassLoader().getResourceAsStream(jdbc)) {
 			properties.load(input);
@@ -50,7 +50,7 @@ public class DruidMapper {
 		return rs;
 	}
 
-	private static final String JDBC = "db/jdbc.properties";
+	private static final String JDBC = "jdbc.properties";
 
 	private static DataSource dataSource;
 }

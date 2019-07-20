@@ -21,7 +21,7 @@ mvn help:system
 
 mvn package -DskipTests -Ddockerfile.skip
 
-mvn exec:exec -Dexec.executable="java" -Dexec.args="-jar target/lun-1.0-SNAPSHOT-bin.jar"
+mvn exec:exec -Dexec.executable="java" -Dexec.args="-jar target/nian-1.0-SNAPSHOT-bin.jar"
 ```
 
 ### jar
@@ -29,9 +29,9 @@ mvn exec:exec -Dexec.executable="java" -Dexec.args="-jar target/lun-1.0-SNAPSHOT
 > java -jar *.jar，通过读取jar包内/META-INF/MANIFEST.MF，将jar包内的依赖包复制至./lib，类加载器会自动加载
 
 ```
-java -jar  lun-1.0-SNAPSHOT-bin.jar
-java -jar  lun-1.0-SNAPSHOT-bin.jar 9000
-java -jar  lun-1.0-SNAPSHOT-bin.jar 9000 ssms.war
+java -jar nian-1.0-SNAPSHOT-bin.jar
+java -jar nian-1.0-SNAPSHOT-bin.jar 9000
+java -jar nian-1.0-SNAPSHOT-bin.jar 9000 ssms.war
 ```
 
 ### h2
@@ -52,7 +52,7 @@ DOCKER_OPTS="-H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375"
 sudo service docker restart
 curl http://192.168.1.10:2375/images/json
 
-docker run -it -p 9000:9000 cike567/lun:1.0-SNAPSHOT #/bin/sh 
+docker run -it -p 9000:9000 lun/nian:1.0-SNAPSHOT #/bin/sh 
 ```
 
 > 删除无效images

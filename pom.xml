@@ -6,11 +6,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org</groupId>
-	<artifactId>lun</artifactId>
+	<artifactId>nian</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>lun</name>
+	<name>nian</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
@@ -157,7 +157,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>cike567/jaxrs</repository>
+					<repository>lun/nian</repository>
 					<dockerHost>http://192.168.1.110:2375</dockerHost>
 					<tag>${project.version}</tag>
 					<buildArgs>

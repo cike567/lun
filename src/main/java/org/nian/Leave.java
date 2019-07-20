@@ -1,4 +1,4 @@
-package org.rili;
+package org.nian;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,38 @@ public class Leave {
 		}
 	}
 
+	private boolean holiday(LocalDate date) {
+		boolean holiday = true;
+		String day = date.toString();
+		if (holidays.contains(day)) {
+			holiday = true;
+		} else if (weekdays.contains(day)) {
+			holiday = false;
+		} else if (date.getDayOfWeek().getValue() > 5) {
+			holiday = true;
+		} else {
+			holiday = false;
+		}
+		return holiday;
+	}
+
+	private void weekday(int year) {
+		String csv = App.get(App.PROJ, NIAN);
+		String name = String.format(csv + "/" + CSV, year);
+		InputStream input = this.getClass().getClassLoader().getResourceAsStream(name);
+		if (input != null) {
+			List<String> leave = new BufferedReader(new InputStreamReader(input)).lines().parallel()
+					.collect(Collectors.toList());
+			leave.forEach((l) -> {
+				String[] row = l.split(",");
+				holidays.addAll(Arrays.asList(row[1].split(" ")));
+				if (row.length == 3) {
+					weekdays.addAll(Arrays.asList(row[2].split(" ")));
+				}
+			});
+		}
+	}
+
 	public List<String> month(Set<String> days, Integer month) {
 		month = month(month);
 		String min = String.format("%s-%02d-01", year, month);
@@ -71,36 +104,32 @@ public class Leave {
 		}).collect(Collectors.toList());
 	}
 
-	private boolean holiday(LocalDate date) {
-		boolean holiday = true;
-		String day = date.toString();
-		if (holidays.contains(day)) {
-			holiday = true;
-		} else if (weekdays.contains(day)) {
-			holiday = false;
-		} else if (date.getDayOfWeek().getValue() > 5) {
-			holiday = true;
-		} else {
-			holiday = false;
+	public static Map<Integer, List<String>> dayMap(String day) {
+		if (day == null) {
+			day = LocalDate.now().toString();
 		}
-		return holiday;
+		Map<Integer, List<String>> dayMap = new HashMap<Integer, List<String>>();
+		String[] days = day.split(",");
+		for (String d : days) {
+			String[] date = d.split("-|/");
+			Integer year = Integer.parseInt(date[0]);
+			List<String> dateList = new ArrayList<String>(9);
+			if (date.length != 3) {
+				continue;
+			}
+			if (dayMap.containsKey(year)) {
+				dateList = dayMap.get(year);
+			} else {
+				dateList = new ArrayList<String>();
+				dayMap.put(year, dateList);
+			}
+			dateList.add(d.replace("/", "-"));
+		}
+		return dayMap;
 	}
 
-	private void weekday(int year) {
-		String csv = App.get(RILI, RILI);
-		String name = String.format(csv + "/" + CSV, year);
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream(name);
-		if (input != null) {
-			List<String> leave = new BufferedReader(new InputStreamReader(input)).lines().parallel()
-					.collect(Collectors.toList());
-			leave.forEach((l) -> {
-				String[] row = l.split(",");
-				holidays.addAll(Arrays.asList(row[1].split(" ")));
-				if (row.length == 3) {
-					weekdays.addAll(Arrays.asList(row[2].split(" ")));
-				}
-			});
-		}
+	public List<String> day(Set<String> days, List<String> dayList) {
+		return dayList.stream().filter(d -> days.contains(d)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -130,7 +159,7 @@ public class Leave {
 
 	private static Map<Integer, Leave> leaveMap = new HashMap<Integer, Leave>(9);
 
-	private final String RILI = "rili";
+	private final String NIAN = "nian";
 	private final String CSV = "%s.csv";
 
 	private int year;

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.App;
 import org.db.DruidMapper;
 import org.db.Mapper;
 import org.db.MapperHandler;
@@ -24,6 +25,7 @@ public class DbTest {
 
 	@Before
 	public void mapper() {
+		App.conf();
 		Mapper.query(OauthMapper.class);
 		DruidMapper.connect();
 	}
