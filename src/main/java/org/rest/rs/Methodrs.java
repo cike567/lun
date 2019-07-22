@@ -47,12 +47,10 @@ public class Methodrs {
 			Object p = null;
 			if (pas[i].length > 0) {
 				p = param(pas[i][0]);
-			}
-			if (p == null && pas[i].length == 0) {
+			} else {
 				p = paramMap.get(types[i].getTypeName());
 			}
-			p = type(p, types[i]);
-			args[i] = p;
+			args[i] = type(p, types[i]);
 		}
 		logger.info("args:{}", Arrays.toString(args));
 		return args;
@@ -75,7 +73,11 @@ public class Methodrs {
 	private Object type(Object p, Type type) {
 		if (p != null && !p.getClass().equals(type)) {
 			if (type.equals(Integer.class)) {
-				p = Integer.parseInt(p.toString());
+				try {
+					p = Integer.parseInt(p.toString());
+				} catch (NumberFormatException e) {
+					p = 0;
+				}
 			}
 		}
 		return p;

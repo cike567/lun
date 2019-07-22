@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -104,30 +103,6 @@ public class Leave {
 		}).collect(Collectors.toList());
 	}
 
-	public static Map<Integer, List<String>> dayMap(String day) {
-		if (day == null) {
-			day = LocalDate.now().toString();
-		}
-		Map<Integer, List<String>> dayMap = new HashMap<Integer, List<String>>();
-		String[] days = day.split(",");
-		for (String d : days) {
-			String[] date = d.split("-|/");
-			Integer year = Integer.parseInt(date[0]);
-			List<String> dateList = new ArrayList<String>(9);
-			if (date.length != 3) {
-				continue;
-			}
-			if (dayMap.containsKey(year)) {
-				dateList = dayMap.get(year);
-			} else {
-				dateList = new ArrayList<String>();
-				dayMap.put(year, dateList);
-			}
-			dateList.add(d.replace("/", "-"));
-		}
-		return dayMap;
-	}
-
 	public List<String> day(Set<String> days, List<String> dayList) {
 		return dayList.stream().filter(d -> days.contains(d)).collect(Collectors.toList());
 	}
@@ -138,7 +113,7 @@ public class Leave {
 	}
 
 	public static Integer year(Integer year) {
-		return year == null ? year = LocalDate.now().getYear() : year;
+		return year == null || year.equals(0) ? year = LocalDate.now().getYear() : year;
 	}
 
 	public static Integer month(Integer month) {

@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * http://localhost:8080/application.wadl
+ * http://localhost:9000/application.json
  * 
  * @author cike
  *
@@ -38,16 +38,20 @@ public class RestApi extends Application {
 	}
 
 	public RestApi(Method method) {
-		this.path = method.getAnnotation(Path.class).value();
-		this.method = GET.class.getSimpleName();
-		if (method.getAnnotation(POST.class) != null) {
-			this.method = POST.class.getSimpleName();
+		Path path = method.getAnnotation(Path.class);
+		if (path != null) {
+			this.path = path.value();
+			this.method = GET.class.getSimpleName();
+			if (method.getAnnotation(POST.class) != null) {
+				this.method = POST.class.getSimpleName();
+			}
+			try {
+				params(method);
+			} catch (ClassNotFoundException e) {
+				System.out.println(e.getMessage());
+			}
 		}
-		try {
-			params(method);
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
+
 	}
 
 	@Path("application.json")

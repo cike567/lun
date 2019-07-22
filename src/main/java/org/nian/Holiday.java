@@ -42,7 +42,7 @@ public class Holiday {
 
 	@Path("/day/{day}")
 	public String day(@PathParam("day") String day) {
-		Map<Integer, List<String>> dayMap = Leave.dayMap(day);
+		Map<Integer, List<String>> dayMap = new Day(day).toMap();
 		Set<String> set = new TreeSet<String>();
 		for (Entry<Integer, List<String>> entry : dayMap.entrySet()) {
 			Leave leave = Leave.on(entry.getKey());

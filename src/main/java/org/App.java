@@ -13,7 +13,7 @@ import org.util.war.Tomcatembed;
 
 public class App {
 	/**
-	 * java -jar a.jar 9000 b.war
+	 * java -jar nian.jar 9000
 	 */
 	public static void main(String[] args) throws Throwable {
 		Jar.classpath();

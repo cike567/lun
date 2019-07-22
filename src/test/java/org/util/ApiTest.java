@@ -13,15 +13,15 @@ import org.slf4j.LoggerFactory;
  * @author cike
  *
  */
-public class ApiTest extends HttpServletTest {
+public class ApiTest {
 
 	@Test
 	public void testMethod() {
 		Method[] methods = Clientid.class.getMethods();
 		for (Method method : methods) {
-			System.out.println(new RestApi(method));
+			logger.info("method:{}", method);
+			logger.info("api:{}", new RestApi(method));
 		}
-		System.out.println(System.nanoTime());
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
